@@ -55,6 +55,7 @@ jar_util()
 				#zip -r -j -0 $dir/jar_temp/$2_notal $dir/jar_temp/$2.out/.
 				zipalign 4 $dir/jar_temp/$2_notal $dir/jar_temp/$2
 				if [[ -f $dir/jar_temp/$2 ]]; then
+                    sudo rm $dir/jar_temp/$2 $dir/module/system/framework/.gitkeep
 					sudo cp -rf $dir/jar_temp/$2 $dir/module/system/framework
 					final_dir="$dir/module/*"
 					#7za a -tzip "$dir/services_patched_$(date "+%d%m%y").zip" $final_dir
