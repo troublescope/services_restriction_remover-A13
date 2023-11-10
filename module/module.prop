@@ -1,0 +1,6 @@
+id=patched_services_a13
+name=Remove Services.jar restriction for A13
+version=v1.0
+versionCode=1.0
+author=kai_verse
+description=be careful!! This module was generated automatically, requiring a specific services.jar according to the ROM you are using! Don't install if you don't know where it comes from!!!
