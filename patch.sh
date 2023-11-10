@@ -17,8 +17,8 @@ jar_util()
 	if [[ $1 == "d" ]]; then
 		echo -ne "====> Patching $2 : "
 		if [[ -f $dir/services.jar ]]; then
-			cp $dir/services.jar $dir/jar_temp
-			chown $(whoami) $dir/jar_temp/$2
+			sudo cp $dir/services.jar $dir/jar_temp
+			sudo chown $(whoami) $dir/jar_temp/$2
 			unzip $dir/jar_temp/$2 -d $dir/jar_temp/$2.out  >/dev/null 2>&1
 			if [[ -d $dir/jar_temp/"$2.out" ]]; then
 				rm -rf $dir/jar_temp/$2
@@ -55,9 +55,9 @@ jar_util()
 				#zip -r -j -0 $dir/jar_temp/$2_notal $dir/jar_temp/$2.out/.
 				zipalign 4 $dir/jar_temp/$2_notal $dir/jar_temp/$2
 				if [[ -f $dir/jar_temp/$2 ]]; then
-				    rm $dir/jar_temp/$2 $dir/module/system/framework/.gitkeep
-					cp -rf $dir/jar_temp/$2 $dir/module/system/framework
+					sudo cp -rf $dir/jar_temp/$2 $dir/module/system/framework
 					final_dir="$dir/module/*"
+					#7za a -tzip "$dir/services_patched_$(date "+%d%m%y").zip" $final_dir
 					echo "Success"
 					rm -rf $dir/jar_temp/$2.out $dir/jar_temp/$2_notal 
 				else
@@ -113,4 +113,3 @@ if [[ ! -d $dir/jar_temp ]]; then
 fi
 
 services
-
