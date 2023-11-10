@@ -8,10 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Set current date
-        run: echo "Current Date: $(date +'%Y-%m-%d')"
-        id: current_date
-
       - name: Checkout PR
         uses: actions/checkout@v2
         with:
@@ -32,8 +28,11 @@ jobs:
           sudo chmod 777 -R *
           ./patch.sh
 
+      - name: Set current date
+        run: echo "::set-env name=BUILD_DATE::$(date +'%Y-%m-%d')"
+        
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: services-jar-patched-${{ github.actor }}-${{ steps.current_date.outputs.date }}
+          name: services-jar-patched-${{ github.actor }}-${{ env.BUILD_DATE }}
           path: ./module/*
