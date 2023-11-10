@@ -6,17 +6,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    steps:
-      - name: Set current date
-        run: echo "Current Date: $(date +'%Y-%m-%d')"
-        id: current_date
 
+    steps:
       - name: Checkout PR
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      
+
       - name: Set up
         run: |
           sudo apt-get install -y git wget zip unzip axel python3-pip zipalign apksigner xmlstarlet
@@ -25,15 +21,18 @@ jobs:
       - name: Set Timezone
         run: |
           echo "Setting timezone"
-          sudo timedatectl set-timezone Asia/Jakarta 
+          sudo timedatectl set-timezone Asia/Jakarta
 
       - name: Patching services jar
         run: |
           sudo chmod 777 -R *
           ./patch.sh
 
+      - name: Set current date
+        run: echo "BUILD_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: services-jar-patched-${{ github.actor }}-${{ steps.current_date.outputs.date }}
+          name: services-jar-patched-${{ github.actor }}-${{ env.BUILD_DATE }}
           path: ./module/*
